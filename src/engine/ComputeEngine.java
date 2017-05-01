@@ -16,13 +16,18 @@ public class ComputeEngine implements Compute {
     public <T> T executeTask(Task<T> t) {
         return t.execute();
     }
+    
+    public <T> T retrieveInfo(Task<T> t){
+    	return t.retrieve();
+    }
 
     public static void main(String[] args) {
         if (System.getSecurityManager() == null) {
             System.setSecurityManager(new SecurityManager());
         }
         try {
-            String name = "Compute";
+            String name = args[0];//"Compute";
+            
             Compute engine = new ComputeEngine();
             Compute stub =
                 (Compute) UnicastRemoteObject.exportObject(engine, 0);
