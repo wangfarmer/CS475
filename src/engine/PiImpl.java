@@ -1,10 +1,15 @@
-package client;
+package engine;
 
 import compute.Task;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import compute.Pi;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
 
-public class PiImpl implements Pi, Task<BigDecimal>, Serializable {
+public class PiImpl implements Pi, Serializable {
 
     private static final long serialVersionUID = 227L;
     private BigDecimal piCalc = BigDecimal.valueOf(777);
@@ -18,14 +23,15 @@ public class PiImpl implements Pi, Task<BigDecimal>, Serializable {
         BigDecimal.ROUND_HALF_EVEN;
 
     /** digits of precision after the decimal point */
-    private final int digits;
+    private int digits;
     
     /**
      * Construct a task to calculate pi to the specified
      * precision.
      */
-    public Pi(int digits) {
-        this.digits = digits;
+    public PiImpl() {
+    	super();
+        //this.digits = digits;
         //this.piCalc = piCalc;
     }
 
@@ -36,8 +42,11 @@ public class PiImpl implements Pi, Task<BigDecimal>, Serializable {
     /**
      * Calculate pi.
      */
-    public BigDecimal execute() {
-        
+    public BigDecimal execute(int digits) {
+//        PiImpl imp = new PiImpl(digits);
+    	//this = new PiImpl(digits);
+    	this.digits = digits;
+    	
     	return this.piCalc = computePi(digits);
        
     }
@@ -100,4 +109,27 @@ public class PiImpl implements Pi, Task<BigDecimal>, Serializable {
         } while (term.compareTo(BigDecimal.ZERO) != 0);
         return result;
     }
+    
+    public static void main(String[] args) {
+        if (System.getSecurityManager() == null) {
+            System.setSecurityManager(new SecurityManager());
+        }
+        try {
+            String name = args[0];//"Compute";
+            
+            //Compute engine = new ComputeEngine();
+            Pi engine = new PiImpl();
+            
+            //Compute stub =
+            Pi stub =
+                (Pi) UnicastRemoteObject.exportObject(engine, 0);
+            Registry registry = LocateRegistry.getRegistry();
+            registry.rebind(name, stub);
+            System.out.println("ComputeEngine bound");
+        } catch (Exception e) {
+            System.err.println("ComputeEngine exception:");
+            e.printStackTrace();
+        }
+    }
+    
 }
