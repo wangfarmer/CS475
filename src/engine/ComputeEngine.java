@@ -6,37 +6,24 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import compute.Compute;
 import compute.Task;
+import compute.Pi;
+import java.math.BigDecimal;
+import engine.PiImpl;
 
-public class ComputeEngine implements Compute {
+public class ComputeEngine implements Compute, Pi {
 
     public ComputeEngine() {
         super();
     }
 
-    public <T> T executeTask(Task<T> t) {
-        return t.execute();
+    public BigDecimal executeTask(int digits) {
+ 
+        return this.execute(digits);
     }
     
-    public <T> T retrieveInfo(Task<T> t){
+    public BigDecimal retrieveInfo(Pi t){
     	return t.retrieve();
     }
 
-    public static void main(String[] args) {
-        if (System.getSecurityManager() == null) {
-            System.setSecurityManager(new SecurityManager());
-        }
-        try {
-            String name = args[0];//"Compute";
-            
-            Compute engine = new ComputeEngine();
-            Compute stub =
-                (Compute) UnicastRemoteObject.exportObject(engine, 0);
-            Registry registry = LocateRegistry.getRegistry();
-            registry.rebind(name, stub);
-            System.out.println("ComputeEngine bound");
-        } catch (Exception e) {
-            System.err.println("ComputeEngine exception:");
-            e.printStackTrace();
-        }
-    }
+ 
 }
