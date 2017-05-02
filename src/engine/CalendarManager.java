@@ -1,248 +1,198 @@
 package calendar;
 
 import java.util.Calendar;
-import java.util.Calendar;
-import java.util.Scanner;
+import java.util.LinkedList;
 
 public class CalendarManager {
-	
-	private String name;
-	/*private int yearStart;
-	private int monthStart;
-	private int dateStart;
-	private int hourStart;
-	private int minStart;
-	private int yearEnd;
-	private int monthEnd;
-	private int dateEnd;
-	private int hourEnd;
-	private int minEnd;*/
-	
-	private Calendar startDate;
-	private Calendar endDate;
-	private String description;
-	private String accessControl;
-	/*, int yearStart, int monthStart, int dateStart, int hourStart, int minStart, int yearEnd,
-	int monthEnd, int dateEnd, int hourEnd, int minEnd*/
-	public CalendarManager(String name, Calendar startDate, Calendar endDate, String description, String accessControl) {
+	private String userName;
+	private LinkedList<CalendarObject> calendar;
+
+	public CalendarManager() {
 		super();
-		this.name = name;
-		/*this.yearStart = yearStart;
-		this.monthStart = monthStart;
-		this.dateStart = dateStart;
-		this.hourStart = hourStart;
-		this.minStart = minStart;
-		this.yearEnd = yearEnd;
-		this.monthEnd = monthEnd;
-		this.dateEnd = dateEnd;
-		this.hourEnd = hourEnd;
-		this.minEnd = minEnd;*/
-		this.startDate = startDate;
-		this.endDate = endDate;
-		this.description = description;
-		this.accessControl = accessControl;
-	}
-
-	public Calendar getStartDate() {
-		return startDate;
-	}
-
-	public void setStartDate(Calendar startDate) {
-		this.startDate = startDate;
-	}
-
-	public Calendar getEndDate() {
-		return endDate;
-	}
-
-	public void setEndDate(Calendar endDate) {
-		this.endDate = endDate;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	/*public int getYearStart() {
-		return yearStart;
-	}
-
-	public void setYearStart(int yearStart) {
-		this.yearStart = yearStart;
-	}
-
-	public int getMonthStart() {
-		return monthStart;
-	}
-
-	public void setMonthStart(int monthStart) {
-		this.monthStart = monthStart;
-	}
-
-	public int getDateStart() {
-		return dateStart;
-	}
-
-	public void setDateStart(int dateStart) {
-		this.dateStart = dateStart;
-	}
-
-	public int getHourStart() {
-		return hourStart;
-	}
-
-	public void setHourStart(int hourStart) {
-		this.hourStart = hourStart;
-	}
-
-	public int getMinStart() {
-		return minStart;
-	}
-
-	public void setMinStart(int minStart) {
-		this.minStart = minStart;
-	}
-
-	public int getYearEnd() {
-		return yearEnd;
-	}
-
-	public void setYearEnd(int yearEnd) {
-		this.yearEnd = yearEnd;
-	}
-
-	public int getMonthEnd() {
-		return monthEnd;
-	}
-
-	public void setMonthEnd(int monthEnd) {
-		this.monthEnd = monthEnd;
-	}
-
-	public int getDateEnd() {
-		return dateEnd;
-	}
-
-	public void setDateEnd(int dateEnd) {
-		this.dateEnd = dateEnd;
-	}
-
-	public int getHourEnd() {
-		return hourEnd;
-	}
-
-	public void setHourEnd(int hourEnd) {
-		this.hourEnd = hourEnd;
-	}
-
-	public int getMinEnd() {
-		return minEnd;
-	}
-
-	public void setMinEnd(int minEnd) {
-		this.minEnd = minEnd;
-	}*/
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public String getAccessControl() {
-		return accessControl;
-	}
-
-	public void setAccessControl(String accessControl) {
-		this.accessControl = accessControl;
 	}
 	
-	public static void main(String[] args) {
-		Scanner sc = new Scanner(System.in);
-		String nameInput;
-		int yearStartInput;
-		int monthStartInput;
-		int dateStartInput;
-		int hourStartInput;
-		int minStartInput;
-		int yearEndInput;
-		int monthEndInput;
-		int dateEndInput;
-		int hourEndInput;
-		int minEndInput;
-		String descriptionInput;
-		String accessControlInput;
-		System.out.print("Your name:\t");
-		nameInput = sc.nextLine();
-		System.out.print("Start Year:\t");
-		yearStartInput = sc.nextInt();
-		sc.nextLine();
-		System.out.print("Start Month:\t");
-		monthStartInput = sc.nextInt();
-		sc.nextLine();
-		System.out.print("Start Date:\t");
-		dateStartInput = sc.nextInt();
-		sc.nextLine();
-		System.out.print("Start Hour:\t");
-		hourStartInput = sc.nextInt();
-		sc.nextLine();
-		System.out.print("Start Minute:\t");
-		minStartInput = sc.nextInt();
-		sc.nextLine();
-		System.out.print("End Year:\t");
-		yearEndInput = sc.nextInt();
-		sc.nextLine();
-		System.out.print("End Month:\t");
-		monthEndInput = sc.nextInt();
-		sc.nextLine();
-		System.out.print("End Date:\t");
-		dateEndInput = sc.nextInt();
-		sc.nextLine();
-		System.out.print("End Hour:\t");
-		hourEndInput = sc.nextInt();
-		sc.nextLine();
-		System.out.print("End Minute:\t");
-		minEndInput = sc.nextInt();
-		sc.nextLine();
-		System.out.print("Description of Event:\t");
-		descriptionInput = sc.nextLine();
-		System.out.print("Access Type (Private/ Public/ Group/ Open):\t");
-		accessControlInput = sc.nextLine();
-		
-		Calendar startDateInput = Calendar.getInstance();
-		startDateInput.set(yearStartInput,monthStartInput,dateStartInput,hourStartInput,minStartInput);
-		Calendar endDateInput = Calendar.getInstance();
-		endDateInput.set(yearEndInput,monthEndInput,dateEndInput,hourEndInput,minEndInput);
-		
-		CalendarManager newUser = new CalendarManager(nameInput,startDateInput,endDateInput,descriptionInput,accessControlInput);
-		System.out.println("Name:\t" +newUser.getName());
-		System.out.println("Start Time:\t" +newUser.getStartDate().getWeekYear());
-		System.out.println("End Time:\t" +newUser.getEndDate().getWeekYear());
-		System.out.println("Description:\t" +newUser.getDescription());
-		System.out.println("Access Type:\t" +newUser.getAccessControl());
-		
-		/*ApiParameter apiParameter1 = new ApiParameter();
-		apiParameter1.setName("service");
-		apiParameter1.setRequired(true);
-		apiParameter1.setDescription("xxxx");
+	public CalendarManager(LinkedList<CalendarObject> calendar) {
+		this.calendar = calendar;
+	}
 	
-		ApiParameter apiParameter2 = new ApiParameter();
-		apiParameter2.setName("STARTDA");
-		apiParameter2.setRequired(false);
-		apiParameter2.setDescription("xxxx");
+	public LinkedList<CalendarObject> getCalendar() {
+		return calendar;
+	}
+
+	public void setCalendar(LinkedList<CalendarObject> calendar) {
+		this.calendar = calendar;
+	}
+	
+	public LinkedList<EventObj> retrieveEvent(Calendar startDate, Calendar endDate){
 		
-		List<ApiParameter> list = new ArrayList<>();
-		list.add(apiParameter1);
-		list.add(apiParameter2);
+		//initialize a list for return
+		LinkedList<EventObj> resultEventSet = new LinkedList<EventObj>();
 		
-		System.out.println(new Gson().toJson(list));*/
+		boolean userExist = false;
+		//iterate from beginning, search the name same as the username
+		for (CalendarObject e : calendar){
+			if(userName.equals(e.getName())){
+				userExist =  true;
+				//once find the name's calendar object, get eventlist
+				for(EventObj retrieveEvent : e.getEvent()){
+					//if there are matching, then add the event  to result set
+					if((startDate.compareTo(retrieveEvent.getEndDate())<=0 && startDate.compareTo(retrieveEvent.getStartDate())>=0) //startdate is between the event
+							||(endDate.compareTo(retrieveEvent.getEndDate())<=0 && endDate.compareTo(retrieveEvent.getStartDate())>=0) //enddate is between the event
+							||(startDate.compareTo(retrieveEvent.getStartDate())<=0 && endDate.compareTo(retrieveEvent.getEndDate())>=0)//the event is in the start and end date
+							){
+						
+						resultEventSet.add(retrieveEvent);
+					}
+				}	
+			}
+		}
+		
+		
+		
+		if(userExist == false){
+			//check if parameter user does not exist
+			System.out.print(userName + " is not in userlist: ");
+			return null;
+		}else{
+			if(resultEventSet.size() == 0){
+				System.out.print("No event at this time for " + userName);
+				return null;
+			}
+			return resultEventSet;
+		}
+	}
+	
+	public LinkedList<EventObj> retrieveEvent(String user, Calendar startDate, Calendar endDate){
+		
+		//initialize a list for return
+		LinkedList<EventObj> resultEventSet = new LinkedList<EventObj>();
+		
+		boolean userExist = false;
+		//iterate from beginning, search the name same as the parameter user
+		for (CalendarObject e : calendar){
+			if(user.equals(e.getName())){
+				userExist =  true;
+				//once find the name's calendar object, get eventlist
+				for(EventObj retrieveEvent : e.getEvent()){
+					//if there are matching, then add the event  to result set
+					if((startDate.compareTo(retrieveEvent.getEndDate())<=0 && startDate.compareTo(retrieveEvent.getStartDate())>=0) //startdate is between the event
+							||(endDate.compareTo(retrieveEvent.getEndDate())<=0 && endDate.compareTo(retrieveEvent.getStartDate())>=0) //enddate is between the event
+							||(startDate.compareTo(retrieveEvent.getStartDate())<=0 && endDate.compareTo(retrieveEvent.getEndDate())>=0)//the event is in the start and end date
+							){
+						
+						resultEventSet.add(retrieveEvent);
+					}
+				}	
+			}
+			
+		}
+		
+		if(userExist == false){
+			//check if parameter user does not exist
+			System.out.print(user + " is not in userlist: ");
+			return null;
+		}else{
+			if(resultEventSet.size() == 0){
+				System.out.print("No event at this time for " + user);
+				return null;
+			}
+			return resultEventSet;
+		}
+		
 		
 	}
 	
+	public void scheduleEvent(EventObj newEvent){
+		
+		//initialize a check for time conflicting
+		boolean timeConflict = false;
+		
+		boolean userExist = false;
+		
+		for (CalendarObject e : calendar){
+			//iterate from beginning, search the name same as the username
+			if(userName.equals(e.getName())){
+				userExist = true;
+				allloop:
+				//iterate from beginning, search if there is time conflicting
+				for(EventObj checkEvent : e.getEvent()){
+					//if there are conflicting, break the for loop the return error message
+					if(((newEvent.getStartDate()).compareTo(checkEvent.getEndDate())<0 && (newEvent.getStartDate()).compareTo(checkEvent.getStartDate())>=0) //startdate is between the event
+							||((newEvent.getEndDate()).compareTo(checkEvent.getEndDate())<=0 && (newEvent.getEndDate()).compareTo(checkEvent.getStartDate())>0) //enddate is between the event
+							||((newEvent.getStartDate()).compareTo(checkEvent.getStartDate())<=0 && (newEvent.getEndDate()).compareTo(checkEvent.getEndDate())>=0)//the event is in the start and end date
+							){
+						timeConflict = true;
+						break allloop;
+					}
+				}	
+			
+				if (timeConflict == true){
+					//there are conflicting, return error message
+					System.out.println("Time Conflict! " + userName +" already have an event at this time! Please reschedule!");
+				}else{
+					//no conflicting add the newEvent to the user
+					e.getEvent().add(newEvent);
+				}
+			}
+		}
+		
+		if(userExist == false){
+			CalendarObject registerUser = new CalendarObject();
+			LinkedList<EventObj> registerEvents = new LinkedList<EventObj>();
+			registerEvents.add(newEvent);
+			registerUser.setName(userName);
+			registerUser.setEvent(registerEvents);
+		}
+		
+	}
+	public void scheduleEvent(LinkedList<String> name, EventObj newEvent){
+
+		//initialize a check for time conflicting
+		boolean timeConflict = false;
+		
+		//iterate from beginning, search the name same as the username
+		for (CalendarObject e : calendar){
+			//iterate from beginning, get every name passed by this list
+			for(String nameInput : name){
+				boolean userExist = false;
+				if(nameInput.equals(e.getName())){
+					userExist = true;
+					allloop:
+					//iterate from beginning, search if there is time conflicting
+					for(EventObj checkEvent : e.getEvent()){
+						if(((newEvent.getStartDate()).compareTo(checkEvent.getEndDate())<0 && (newEvent.getStartDate()).compareTo(checkEvent.getStartDate())>=0) //startdate is between the event
+								||((newEvent.getEndDate()).compareTo(checkEvent.getEndDate())<=0 && (newEvent.getEndDate()).compareTo(checkEvent.getStartDate())>0) //enddate is between the event
+								||((newEvent.getStartDate()).compareTo(checkEvent.getStartDate())<=0 && (newEvent.getEndDate()).compareTo(checkEvent.getEndDate())>=0)//the event is in the start and end date
+								){
+							timeConflict = true;
+							break allloop;
+						}
+					}	
+				
+					if (timeConflict == true){
+						//there are conflicting, return error message
+						System.out.println("Time Conflict! " + nameInput +" already have an event at this time! Please reschedule!");
+					}else{
+						//no conflicting add the newEvent to the user
+						e.getEvent().add(newEvent);
+					}
+					
+				}
+				if(userExist == false){
+					CalendarObject registerUser = new CalendarObject();
+					LinkedList<EventObj> registerEvents = new LinkedList<EventObj>();
+					registerEvents.add(newEvent);
+					registerUser.setName(nameInput);
+					registerUser.setEvent(registerEvents);
+				}
+				
+			}
+			
+				
+			
+		}
+		
+		
+	}
+
 }
