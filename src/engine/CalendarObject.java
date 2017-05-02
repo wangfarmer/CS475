@@ -1,20 +1,18 @@
 package calendar;
 
-import java.util.Calendar;
-import java.util.EventObject;
 import java.util.LinkedList;
 
 public class CalendarObject {
 	
 	private String name;
-	private LinkedList<EventObject> event;
+	private LinkedList<EventObj> event;
 	
 	public CalendarObject() {
 		super();
 		
 	}
 	
-	public CalendarObject(String name, LinkedList<EventObject> event) {
+	public CalendarObject(String name, LinkedList<EventObj> event) {
 		super();
 		this.name = name;
 		this.event = event;
@@ -28,102 +26,18 @@ public class CalendarObject {
 		this.name = name;
 	}
 	
-	public LinkedList<EventObject> getEvent() {
+	public LinkedList<EventObj> getEvent() {
 		return event;
 	}
 
-	public void setEvent(LinkedList<EventObject> event) {
+	public void setEvent(LinkedList<EventObj> event) {
 		this.event = event;
 	}
-	
-	public LinkedList<EventObject> retrieveEvent(Calendar startDate, Calendar endDate){
-		
-		LinkedList<EventObject> resultEventSet = new LinkedList<EventObject>();
-		
-		for (EventObject e : event){
-			for(String eventName : e.getName()){
-				if(eventName.equals(this.name) && ((startDate.compareTo(e.getEndDate())<=0 && startDate.compareTo(e.getStartDate())>=0 //startdate is between the event
-						||endDate.compareTo(e.getEndDate())<=0 && endDate.compareTo(e.getStartDate())>=0) //enddate is between the event
-						||(startDate.compareTo(e.getStartDate())<=0 && endDate.compareTo(e.getEndDate())>=0))){
-						//the event is in the start and end date
-					EventObject resultEvent = e;
-					resultEventSet.add(resultEvent);
-				}
-				 
-			}
-		}
-		
-		if(resultEventSet.size() == 0){
-			return null;
-		}
-		return resultEventSet;
+
+	@Override
+	public String toString() {
+		return "Calendar: [Name: " + name + ", Event: " + event + "]";
 	}
 	
-	public LinkedList<EventObject> retrieveEvent(String user, Calendar startDate, Calendar endDate){
-		
-		//Calendar c1 = Calendar.getInstance();
-				//Calendar c2 = Calendar.getInstance();
-				//c1.compareTo(c2);
-				
-				//the value 0 if the time represented by the argument is equal to the time represented by this Calendar;
-				//a value less than 0 if the time of this Calendar is before the time represented by the argument; 
-				//and a value greater than 0 if the time of this Calendar is after the time represented by the argument.
-		LinkedList<EventObject> resultEventSet = new LinkedList<EventObject>();
-		
-		for (EventObject e : event){
-			for(String name : e.getName()){
-				if(name.equals(user) && ((startDate.compareTo(e.getEndDate())<=0 && startDate.compareTo(e.getStartDate())>=0 //startdate is between the event
-						||endDate.compareTo(e.getEndDate())<=0 && endDate.compareTo(e.getStartDate())>=0) //enddate is between the event
-						||(startDate.compareTo(e.getStartDate())<=0 && endDate.compareTo(e.getEndDate())>=0))){
-						//the event is in the start and end date
-					EventObject resultEvent = e;
-					resultEventSet.add(resultEvent);
-				}
-				 
-			}
-		}
-		
-		if(resultEventSet.size() == 0){
-			return null;
-		}
-		return resultEventSet;
-	}
 	
-	public void scheduleEvent(EventObject newEvent){
-		
-		boolean timeConflict = false;
-		
-		allloop:
-		for (EventObject e : event){
-			
-			for(String name : e.getName()){
-				if(name.equals(user) && (((newEvent.getStartDate()).compareTo(e.getEndDate())<0 && (newEvent.getStartDate()).compareTo(e.getStartDate())>=0 //startdate is between the event
-						||(newEvent.getEndDate()).compareTo(e.getEndDate())<=0 && (newEvent.getEndDate()).compareTo(e.getStartDate())>0) //enddate is between the event
-						||((newEvent.getStartDate()).compareTo(e.getStartDate())<=0 && (newEvent.getEndDate()).compareTo(e.getEndDate())>=0))){
-						//the event is in the start and end date
-					timeConflict = true;
-					break allloop;
-				}
-				 
-			}
-		}
-		
-		if (timeConflict == true){
-			System.out.println("You already have an event at this time");
-		}else{
-			this.event.add(newEvent);
-		}
-		//find all event of the user,
-		//for loop:
-		//if newevent's starting time and ending time bigger than old events' starting time and less than ending time
-		
-		//the value 0 if the time represented by the argument is equal to the time represented by this Calendar;
-				//a value less than 0 if the time of this Calendar is before the time represented by the argument; 
-				//and a value greater than 0 if the time of this Calendar is after the time represented by the argument.
-	}
-	public void scheduleEvent(LinkedList<String> name, EventObject newEvent){
-		
-		
-		
-	}
 }
