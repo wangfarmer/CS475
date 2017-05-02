@@ -7,23 +7,20 @@ import java.util.Scanner;
 public class EventObject {
 	
 	
-	/*private int yearStart;
-	private int monthStart;
-	private int dateStart;
+	/*
 	private int hourStart;
 	private int minStart;
-	private int yearEnd;
-	private int monthEnd;
-	private int dateEnd;
+	
 	private int hourEnd;
-	private int minEnd;*/
+	private int minEnd;
+	*/
 	private LinkedList<String> name;
 	private Calendar startDate;
 	private Calendar endDate;
 	private String description;
 	private String accessControl;
-	/*, int yearStart, int monthStart, int dateStart, int hourStart, int minStart, int yearEnd,
-	int monthEnd, int dateEnd, int hourEnd, int minEnd*/
+	/*int hourStart, int minStart, int yearEnd,
+	int hourEnd, int minEnd*/
 	
 	public EventObject(){
 		super();
@@ -31,16 +28,12 @@ public class EventObject {
 	public EventObject(LinkedList<String> name, Calendar startDate, Calendar endDate, String description, String accessControl) {
 		
 		this.name = name;
-		/*this.yearStart = yearStart;
-		this.monthStart = monthStart;
-		this.dateStart = dateStart;
+		/*
 		this.hourStart = hourStart;
 		this.minStart = minStart;
-		this.yearEnd = yearEnd;
-		this.monthEnd = monthEnd;
-		this.dateEnd = dateEnd;
 		this.hourEnd = hourEnd;
-		this.minEnd = minEnd;*/
+		this.minEnd = minEnd;
+		*/
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.description = description;
@@ -65,29 +58,7 @@ public class EventObject {
 
 	
 
-	/*public int getYearStart() {
-		return yearStart;
-	}
-
-	public void setYearStart(int yearStart) {
-		this.yearStart = yearStart;
-	}
-
-	public int getMonthStart() {
-		return monthStart;
-	}
-
-	public void setMonthStart(int monthStart) {
-		this.monthStart = monthStart;
-	}
-
-	public int getDateStart() {
-		return dateStart;
-	}
-
-	public void setDateStart(int dateStart) {
-		this.dateStart = dateStart;
-	}
+	/*
 
 	public int getHourStart() {
 		return hourStart;
@@ -103,30 +74,6 @@ public class EventObject {
 
 	public void setMinStart(int minStart) {
 		this.minStart = minStart;
-	}
-
-	public int getYearEnd() {
-		return yearEnd;
-	}
-
-	public void setYearEnd(int yearEnd) {
-		this.yearEnd = yearEnd;
-	}
-
-	public int getMonthEnd() {
-		return monthEnd;
-	}
-
-	public void setMonthEnd(int monthEnd) {
-		this.monthEnd = monthEnd;
-	}
-
-	public int getDateEnd() {
-		return dateEnd;
-	}
-
-	public void setDateEnd(int dateEnd) {
-		this.dateEnd = dateEnd;
 	}
 
 	public int getHourEnd() {
@@ -172,44 +119,26 @@ public class EventObject {
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
 		LinkedList<String> nameInput = new LinkedList<String>();
-		int yearStartInput;
-		int monthStartInput;
-		int dateStartInput;
+		
 		int hourStartInput;
 		int minStartInput;
-		int yearEndInput;
-		int monthEndInput;
-		int dateEndInput;
+		
 		int hourEndInput;
 		int minEndInput;
 		String descriptionInput;
 		String accessControlInput;
 		System.out.print("Your name:\t");
-		nameInput.add (sc.nextLine());
-		System.out.print("Start Year:\t");
-		yearStartInput = sc.nextInt();
-		sc.nextLine();
-		System.out.print("Start Month:\t");
-		monthStartInput = sc.nextInt();
-		sc.nextLine();
-		System.out.print("Start Date:\t");
-		dateStartInput = sc.nextInt();
-		sc.nextLine();
+		nameInput.add (sc.nextLine());		
+		
+		/* Start Times*/
 		System.out.print("Start Hour:\t");
 		hourStartInput = sc.nextInt();
 		sc.nextLine();
 		System.out.print("Start Minute:\t");
 		minStartInput = sc.nextInt();
 		sc.nextLine();
-		System.out.print("End Year:\t");
-		yearEndInput = sc.nextInt();
-		sc.nextLine();
-		System.out.print("End Month:\t");
-		monthEndInput = sc.nextInt();
-		sc.nextLine();
-		System.out.print("End Date:\t");
-		dateEndInput = sc.nextInt();
-		sc.nextLine();
+		
+		/*End Times */
 		System.out.print("End Hour:\t");
 		hourEndInput = sc.nextInt();
 		sc.nextLine();
@@ -232,22 +161,6 @@ public class EventObject {
 		System.out.println("End Time:\t" +newUser.getEndDate().getWeekYear());
 		System.out.println("Description:\t" +newUser.getDescription());
 		System.out.println("Access Type:\t" +newUser.getAccessControl());
-		
-		/*ApiParameter apiParameter1 = new ApiParameter();
-		apiParameter1.setName("service");
-		apiParameter1.setRequired(true);
-		apiParameter1.setDescription("xxxx");
-	
-		ApiParameter apiParameter2 = new ApiParameter();
-		apiParameter2.setName("STARTDA");
-		apiParameter2.setRequired(false);
-		apiParameter2.setDescription("xxxx");
-		
-		List<ApiParameter> list = new ArrayList<>();
-		list.add(apiParameter1);
-		list.add(apiParameter2);
-		
-		System.out.println(new Gson().toJson(list));*/
 		
 	}
 	

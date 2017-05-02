@@ -1,6 +1,7 @@
 package calendar;
 
 import java.util.Calendar;
+import java.util.EventObject;
 import java.util.LinkedList;
 
 public class CalendarObject {
@@ -40,8 +41,8 @@ public class CalendarObject {
 		LinkedList<EventObject> resultEventSet = new LinkedList<EventObject>();
 		
 		for (EventObject e : event){
-			for(String name : e.getName()){
-				if(name.equals(this.name) && ((startDate.compareTo(e.getEndDate())<=0 && startDate.compareTo(e.getStartDate())>=0 //startdate is between the event
+			for(String eventName : e.getName()){
+				if(eventName.equals(this.name) && ((startDate.compareTo(e.getEndDate())<=0 && startDate.compareTo(e.getStartDate())>=0 //startdate is between the event
 						||endDate.compareTo(e.getEndDate())<=0 && endDate.compareTo(e.getStartDate())>=0) //enddate is between the event
 						||(startDate.compareTo(e.getStartDate())<=0 && endDate.compareTo(e.getEndDate())>=0))){
 						//the event is in the start and end date
@@ -90,19 +91,28 @@ public class CalendarObject {
 	
 	public void scheduleEvent(EventObject newEvent){
 		
+		boolean timeConflict = false;
+		
+		allloop:
 		for (EventObject e : event){
+			
 			for(String name : e.getName()){
-				if(name.equals(this.name) && (((newEvent.getStartDate()).compareTo(e.getEndDate())>=0 && (newEvent.getStartDate()).compareTo(e.getStartDate())<=0 //startdate is between the event
-						||endDate.compareTo(e.getEndDate())<=0 && endDate.compareTo(e.getStartDate())>=0) //enddate is between the event
-						||(startDate.compareTo(e.getStartDate())<=0 && endDate.compareTo(e.getEndDate())>=0))){
+				if(name.equals(user) && (((newEvent.getStartDate()).compareTo(e.getEndDate())<0 && (newEvent.getStartDate()).compareTo(e.getStartDate())>=0 //startdate is between the event
+						||(newEvent.getEndDate()).compareTo(e.getEndDate())<=0 && (newEvent.getEndDate()).compareTo(e.getStartDate())>0) //enddate is between the event
+						||((newEvent.getStartDate()).compareTo(e.getStartDate())<=0 && (newEvent.getEndDate()).compareTo(e.getEndDate())>=0))){
 						//the event is in the start and end date
-					EventObject resultEvent = e;
-					resultEventSet.add(resultEvent);
+					timeConflict = true;
+					break allloop;
 				}
 				 
 			}
 		}
 		
+		if (timeConflict == true){
+			System.out.println("You already have an event at this time");
+		}else{
+			this.event.add(newEvent);
+		}
 		//find all event of the user,
 		//for loop:
 		//if newevent's starting time and ending time bigger than old events' starting time and less than ending time
