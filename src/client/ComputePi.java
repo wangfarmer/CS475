@@ -1,9 +1,12 @@
 package client;
 
+import java.rmi.Naming;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.math.BigDecimal;
 import compute.Compute;
+import compute.Pi;
+
 
 public class ComputePi {
     public static void main(String args[]) {
@@ -14,7 +17,7 @@ public class ComputePi {
             String name = args[1];//"Compute";
              Registry registry = LocateRegistry.getRegistry(args[0]);
 
-             Compute comp = (Compute) registry.lookup(name);
+            // Compute comp = (Compute) registry.lookup(name);
 
 
             /* get command from user*/
@@ -43,10 +46,13 @@ public class ComputePi {
             }
 
             System.out.println(name);
-            Pi task = new Pi(Integer.parseInt(args[3]));
-            BigDecimal pi = comp.executeTask(task);
+            Pi task = null;//new PiImpl(Integer.parseInt(args[3]));
+            task = (Pi)Naming.lookup(name);
             
-            BigDecimal test = comp.retrieveInfo(task);
+            
+           BigDecimal pi = task.execute(4);
+            
+           BigDecimal test = task.retrieve();
            
             System.out.println("setting: " + pi);
             System.out.println("retrieving: " + test);
