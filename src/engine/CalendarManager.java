@@ -1,5 +1,6 @@
 package engine;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -18,7 +19,8 @@ public class CalendarManager implements CalendarMgrIntr<CalendarObject, EventObj
 	private static final long serialVersionUID = 227L;
 	private static LinkedList<CalendarObject> calendar;
 	private Timer timer;
-
+	private ArrayList<String> userList = new ArrayList<String>();
+	
 	class RemindTask extends TimerTask{
 		
 		private String accessControl;
@@ -34,7 +36,7 @@ public class CalendarManager implements CalendarMgrIntr<CalendarObject, EventObj
 	        public void run() {
 		    	
 		    
-		    		System.out.println("---ALERT---- you have a " + accessControl " EVENT: " + description + "\n STARTING!");
+		    		System.out.println("---ALERT---- you have a " + accessControl + " EVENT: " + description + "\n STARTING!");
 	            //System.out.println("ReminderTask is completed by Java timer");
 		    
 		    	timer.cancel(); //Not necessary because we call System.exit
@@ -54,8 +56,16 @@ public class CalendarManager implements CalendarMgrIntr<CalendarObject, EventObj
 	public CalendarManager(LinkedList<CalendarObject> calendar) {
 		this.calendar = calendar;
 	}
+	
+	public synchronized boolean checkUserList(String username){
+		return userList.contains(username);
+	}
+	
+	public synchronized void addUser(String username){
+		userList.add(username);
+	}
 
-	public void createNewTimer(Calender startDate, String description, String accessControl){
+	public void createNewTimer(Calendar startDate, String description, String accessControl){
 		
 		//add alert here///////////////////////////////
 		timer = new Timer();
@@ -69,11 +79,17 @@ public class CalendarManager implements CalendarMgrIntr<CalendarObject, EventObj
 		int currHour = currTime.get(currTime.HOUR_OF_DAY);
 		int currMin = currTime.get(currTime.MINUTE);
 		
+		if(hour < currHour){
+			System.out.println("Event Time is set in past, therefore not setting an alarm");
+		}
+		else{
 		int timeHour = currHour - hour;
 		int timeMin = currMin - minute;
 		
-		timer.schedule(new RemindTask(), timeHour*60*60 + timeMin*60 - 300);
 		
+		
+		timer.schedule(new RemindTask(accessControl, description), timeHour*60*60 + timeMin*60 - 300);
+		}
 	}
 	
 	public synchronized LinkedList<CalendarObject> getCalendar() {

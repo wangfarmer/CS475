@@ -13,7 +13,7 @@ import java.rmi.registry.Registry;
 
 public class CalendarDemo {
 	public static void main(String[] args) {
-		ArrayList<String> userList = new ArrayList<String>();
+		//ArrayList<String> userList = new ArrayList<String>();
 
 		if (System.getSecurityManager() == null) {
 			System.setSecurityManager(new SecurityManager());
@@ -47,13 +47,15 @@ public class CalendarDemo {
 
 					boolean checkNewUserExit = false;
 
-					checkNewUserExit = userList.contains(createNewClientName);
+					//checkNewUserExit = userList.contains(createNewClientName);
+					checkNewUserExit = newManager.checkUserList(createNewClientName);
 
 					if (!checkNewUserExit)
-						userList.add(createNewClientName);
+						//userList.add(createNewClientName);
+						newManager.addUser(createNewClientName);
 
 					// newManager.checkUserExist(createNewClientName);
-					System.out.println(checkNewUserExit);
+				//	System.out.println(checkNewUserExit);
 
 					if (checkNewUserExit == false) {
 						// LinkedList<EventObj> createNewEvent = new
