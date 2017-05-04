@@ -19,6 +19,8 @@ public interface CalendarMgrIntr<T, E> extends Remote {
 
 	public T createCalendarObject(String createNewClientName) throws RemoteException;
 	
+	public void createNewTimer(Calender startDate, String description, String accessControl) throws RemoteException;
+	
 	public E createEvent(Calendar scheduleStartDateInput, Calendar scheduleEndDateInput, 
 			String descriptionScheduleInput, String accessControlScheduleInput) throws RemoteException;
 	

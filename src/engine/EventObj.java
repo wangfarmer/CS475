@@ -7,6 +7,8 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.io.Serializable;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class EventObj implements EventInterface, Serializable{
 
@@ -15,7 +17,7 @@ public class EventObj implements EventInterface, Serializable{
 	private String description;
 	private String accessControl;
 	private static final long serialVersionUID = 227L;
-
+	
 	public EventObj(){
 		//super();
 	}
@@ -26,7 +28,11 @@ public class EventObj implements EventInterface, Serializable{
 		this.endDate = endDate;
 		this.description = description;
 		this.accessControl = accessControl;
+		
+
+
 	}
+
 
 	public Calendar getStartDate() {
 		return startDate;

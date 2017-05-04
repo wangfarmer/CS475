@@ -3,6 +3,7 @@ package client;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.Scanner;
 import compute.CalendarMgrIntr;
 import compute.CalendarObjIntr;
@@ -12,6 +13,7 @@ import java.rmi.registry.Registry;
 
 public class CalendarDemo {
 	public static void main(String[] args) {
+		ArrayList<String> userList = new ArrayList<String>();
 
 		if (System.getSecurityManager() == null) {
 			System.setSecurityManager(new SecurityManager());
@@ -36,23 +38,34 @@ public class CalendarDemo {
 			while(checkInsertStatus){
 				System.out.print("Create a new client? (Yes/No)\t");
 				checkNewClient = sc.nextLine();
-				switch(checkNewClient.toLowerCase()){
+			
+				
+				switch (checkNewClient.toLowerCase()) {
 				case "yes":
 					System.out.print("What's client's name?\t");
 					String createNewClientName = sc.nextLine();
 
 					boolean checkNewUserExit = false;
-					
-					checkNewUserExit = newManager.checkUserExist(createNewClientName);
-					
-					if(checkNewUserExit == false){
-                                            //LinkedList<EventObj> createNewEvent = new LinkedList<EventObj>();
-                                            //	CalendarObject createNewCalendar = new CalendarObject(createNewClientName, createNewEvent);
 
-                                            // newManager.getCalendar().add(createNewCalendar);
-                                                newManager.getCalendar().add(newManager.createCalendarObject(createNewClientName));
-					}else{
-						System.out.println("Creating Client Alice failed, Client "+ createNewClientName + " already exists");
+					checkNewUserExit = userList.contains(createNewClientName);
+
+					if (!checkNewUserExit)
+						userList.add(createNewClientName);
+
+					// newManager.checkUserExist(createNewClientName);
+					System.out.println(checkNewUserExit);
+
+					if (checkNewUserExit == false) {
+						// LinkedList<EventObj> createNewEvent = new
+						// LinkedList<EventObj>();
+						// CalendarObject createNewCalendar = new
+						// CalendarObject(createNewClientName, createNewEvent);
+
+						// newManager.getCalendar().add(createNewCalendar);
+						newManager.getCalendar().add(newManager.createCalendarObject(createNewClientName));
+					} else {
+						System.out.println(
+								"Creating Client Alice failed, Client " + createNewClientName + " already exists");
 					}
 					break;
 				case "no":
@@ -180,7 +193,9 @@ public class CalendarDemo {
 							try{
 								newManager.scheduleEvent(nameScheduleInputList,
 										newManager.createEvent(scheduleStartDateInput,scheduleEndDateInput,descriptionScheduleInput,accessControlScheduleInput));
-
+								
+								newManager.createNewTimer(scheduleStartDateInput, descriptionScheduleInput, accessControlScheduleInput);
+								
 							}catch(Exception e){
 
 							}

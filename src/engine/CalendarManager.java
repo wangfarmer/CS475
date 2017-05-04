@@ -9,33 +9,85 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.io.Serializable;
 import compute.CalendarMgrIntr;
+import java.util.Timer;
+import java.util.TimerTask;
 //import engine.CalendarObject;
 //import engine.EventObj;
 
 public class CalendarManager implements CalendarMgrIntr<CalendarObject, EventObj>, Serializable{
 	private static final long serialVersionUID = 227L;
 	private static LinkedList<CalendarObject> calendar;
+	private Timer timer;
 
+	class RemindTask extends TimerTask{
+		
+		private String accessControl;
+		private String description;
+		
+		RemindTask(String accessControl, String description){
+			this.accessControl = accessControl;
+			this.description = description;
+			
+		}
+		
+		    @Override
+	        public void run() {
+		    	
+		    
+		    		System.out.println("---ALERT---- you have a " + accessControl " EVENT: " + description + "\n STARTING!");
+	            //System.out.println("ReminderTask is completed by Java timer");
+		    
+		    	timer.cancel(); //Not necessary because we call System.exit
+		    	
+	            //System.exit(0); //Stops the AWT thread (and everything else)
+	        }
+
+	}
+	
+	
+	
 	public CalendarManager() {
 		super();
 	}
 
+	
 	public CalendarManager(LinkedList<CalendarObject> calendar) {
 		this.calendar = calendar;
 	}
 
-	public LinkedList<CalendarObject> getCalendar() {
+	public void createNewTimer(Calender startDate, String description, String accessControl){
+		
+		//add alert here///////////////////////////////
+		timer = new Timer();
+		Calendar setTimer = startDate;
+		int hour = setTimer.get(setTimer.HOUR_OF_DAY);
+		int minute = setTimer.get(setTimer.MINUTE); 
+		
+		//compare hour and minute to current time
+		Calendar currTime = Calendar.getInstance();
+		//currTime.getTime();
+		int currHour = currTime.get(currTime.HOUR_OF_DAY);
+		int currMin = currTime.get(currTime.MINUTE);
+		
+		int timeHour = currHour - hour;
+		int timeMin = currMin - minute;
+		
+		timer.schedule(new RemindTask(), timeHour*60*60 + timeMin*60 - 300);
+		
+	}
+	
+	public synchronized LinkedList<CalendarObject> getCalendar() {
 		return calendar;
 	}
 
-	public void setCalendar(LinkedList<CalendarObject> calendar) {
+	public synchronized void setCalendar(LinkedList<CalendarObject> calendar) {
 		this.calendar = calendar;
 	}
 
-	public boolean checkUserExist(String username){
+	public synchronized boolean checkUserExist(String username){
 		
 		
-		for (CalendarObject e : this.getCalendar()){
+		for (CalendarObject e : this.calendar){
 			if(e.getName().equalsIgnoreCase(username)){
 				return true;
 			}
@@ -44,18 +96,18 @@ public class CalendarManager implements CalendarMgrIntr<CalendarObject, EventObj
 	}
 
 
-	public CalendarObject createCalendarObject(String createNewClientName){
+	public synchronized CalendarObject createCalendarObject(String createNewClientName){
 		return new CalendarObject(createNewClientName, new LinkedList<EventObj>());
 	}
 
-	public EventObj createEvent(Calendar scheduleStartDateInput, Calendar scheduleEndDateInput, 
+	public synchronized EventObj createEvent(Calendar scheduleStartDateInput, Calendar scheduleEndDateInput, 
 			String descriptionScheduleInput, String accessControlScheduleInput){
 
 		return new EventObj(scheduleStartDateInput, scheduleEndDateInput, descriptionScheduleInput, accessControlScheduleInput);
 
 	}
 
-	public LinkedList<EventObj> retrieveOthersEvent(String user, Calendar startDate, Calendar endDate){
+	public synchronized LinkedList<EventObj> retrieveOthersEvent(String user, Calendar startDate, Calendar endDate){
 
 		//initialize a list for return
 		LinkedList<EventObj> resultEventSet = new LinkedList<EventObj>();
@@ -103,7 +155,7 @@ public class CalendarManager implements CalendarMgrIntr<CalendarObject, EventObj
 
 	}
 
-	public LinkedList<EventObj> deleteOwnEvent(String user, Calendar startDate, Calendar endDate){
+	public synchronized LinkedList<EventObj> deleteOwnEvent(String user, Calendar startDate, Calendar endDate){
 
 		//initialize a list for return
 		LinkedList<EventObj> resultEventSet = new LinkedList<EventObj>();
@@ -148,7 +200,7 @@ public class CalendarManager implements CalendarMgrIntr<CalendarObject, EventObj
 	}
 
 
-	public LinkedList<EventObj> deleteOthersEvent(String user, Calendar startDate, Calendar endDate){
+	public synchronized LinkedList<EventObj> deleteOthersEvent(String user, Calendar startDate, Calendar endDate){
 
 		//initialize a list for return
 		LinkedList<EventObj> resultEventSet = new LinkedList<EventObj>();
@@ -195,7 +247,7 @@ public class CalendarManager implements CalendarMgrIntr<CalendarObject, EventObj
 
 
 
-	public LinkedList<EventObj> retrieveOwnEvent(String user, Calendar startDate, Calendar endDate){
+	public synchronized LinkedList<EventObj> retrieveOwnEvent(String user, Calendar startDate, Calendar endDate){
 
 		//initialize a list for return
 		LinkedList<EventObj> resultEventSet = new LinkedList<EventObj>();
@@ -241,8 +293,9 @@ public class CalendarManager implements CalendarMgrIntr<CalendarObject, EventObj
 
 	}
 
+	
 
-	public void scheduleEvent(LinkedList<String> name, EventObj newEvent){
+	public synchronized void scheduleEvent(LinkedList<String> name, EventObj newEvent){
 
 		//initialize a check for time conflicting
 		boolean timeConflict = false;
@@ -272,7 +325,10 @@ public class CalendarManager implements CalendarMgrIntr<CalendarObject, EventObj
 						System.out.println("Time Conflict! " + nameInput +" already have an event at this time! Please reschedule!");
 					}else{
 						//no conflicting add the newEvent to the user
+						//e is calendar object
 						e.getEvent().add(newEvent);
+						
+						
 						System.out.println("Finish adding new event for "+nameInput+"!");
 					}
 
@@ -294,7 +350,7 @@ public class CalendarManager implements CalendarMgrIntr<CalendarObject, EventObj
 
 	}
 
-	public void calandarItr(){
+	public synchronized  void calandarItr(){
 		Iterator<CalendarObject> itr = calendar.iterator();
 		while(itr.hasNext()){
 			System.out.println(calendar.toString());
@@ -303,7 +359,7 @@ public class CalendarManager implements CalendarMgrIntr<CalendarObject, EventObj
 	}
 
 	@Override
-	public String toString() {
+	public synchronized String toString() {
 		if(calendar==null){
 			return "No calandar events have been scheduled";
 		}
