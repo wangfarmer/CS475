@@ -42,11 +42,9 @@ public class CalendarDemo {
 					String createNewClientName = sc.nextLine();
 
 					boolean checkNewUserExit = false;
-					for (CalendarObjIntr e : newManager.getCalendar()){
-						if(e.getName().equalsIgnoreCase(createNewClientName)){
-							checkNewUserExit = true;
-						}
-					}
+					
+					checkNewUserExit = newManager.checkUserExist(createNewClientName);
+					
 					if(checkNewUserExit == false){
                                             //LinkedList<EventObj> createNewEvent = new LinkedList<EventObj>();
                                             //	CalendarObject createNewCalendar = new CalendarObject(createNewClientName, createNewEvent);
@@ -178,9 +176,10 @@ public class CalendarDemo {
 							scheduleEndDateInput.set(2017,5,4,hourScheduleEndInput,minScheduleEndInput);
                                                         //////////////////////////////////////////////////////////////////////
                                                         //need to change to server side/////////
-							EventInterface newEvent = newManager.createEvent(scheduleStartDateInput,scheduleEndDateInput,descriptionScheduleInput,accessControlScheduleInput);
+							//EventInterface newEvent = 
 							try{
-								newManager.scheduleEvent(nameScheduleInputList,newEvent);
+								newManager.scheduleEvent(nameScheduleInputList,
+										newManager.createEvent(scheduleStartDateInput,scheduleEndDateInput,descriptionScheduleInput,accessControlScheduleInput));
 
 							}catch(Exception e){
 
