@@ -1,18 +1,25 @@
-package calendar;
+package engine;
 
 import java.util.LinkedList;
+import compute.CalendarObjIntr;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
+import java.io.Serializable;
 
-public class CalendarObject {
+public class CalendarObject implements CalendarObjIntr, Serializable{
 	
 	private String name;
 	private LinkedList<EventObj> event;
+	private static final long serialVersionUID = 227L;
 	
 	public CalendarObject() {
 		super();
 		
 	}
 	
-	public CalendarObject(String name, LinkedList<EventObj> event) {
+	public CalendarObject(String name, LinkedList<EventInterface> event) {
 		super();
 		this.name = name;
 		this.event = event;
@@ -26,11 +33,11 @@ public class CalendarObject {
 		this.name = name;
 	}
 	
-	public LinkedList<EventObj> getEvent() {
+	public LinkedList<EventInterface> getEvent() {
 		return event;
 	}
 
-	public void setEvent(LinkedList<EventObj> event) {
+	public void setEvent(LinkedList<EventInterface> event) {
 		this.event = event;
 	}
 

@@ -4,7 +4,7 @@ import java.rmi.Naming;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.math.BigDecimal;
-import compute.Compute;
+//import compute.Compute;
 import compute.Pi;
 
 
@@ -47,7 +47,7 @@ public class ComputePi {
 
             System.out.println(name);
             Pi task = null;//new PiImpl(Integer.parseInt(args[3]));
-            task = (Pi)Naming.lookup(name);
+            task = (Pi) registry.lookup(name);
             
             
            BigDecimal pi = task.execute(4);

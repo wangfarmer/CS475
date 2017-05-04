@@ -1,20 +1,27 @@
-package calendar;
+package engine;
 
 import java.util.Calendar;
+import compute.EventInterface;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
+import java.io.Serializable;
 
-public class EventObj {
-	
+public class EventObj implements EventInterface, Serializable{
+
 	private Calendar startDate;
 	private Calendar endDate;
 	private String description;
 	private String accessControl;
-	
+	private static final long serialVersionUID = 227L;
+
 	public EventObj(){
 		super();
 	}
 	public EventObj(Calendar startDate, Calendar endDate, String description, String accessControl) {
-		
-		
+
+
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.description = description;
@@ -51,11 +58,11 @@ public class EventObj {
 	public void setAccessControl(String accessControl) {
 		this.accessControl = accessControl;
 	}
-	
+
 	@Override
 	public String toString() {
-		return "[startDate=" + startDate.getTime().toString() + ", endDate=" + endDate.getTime().toString() + ", description=" + description
-				+ ", accessControl=" + accessControl + "]";
+		return "[Start Time: " + startDate.getTime().toString() + ", End Time: " + endDate.getTime().toString() + ", description: " + description
+				+ ", Access Control: " + accessControl + "]";
 	}
-	
+
 }

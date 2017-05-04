@@ -1,22 +1,29 @@
-package calendar;
+package engine;
 
 import java.util.Calendar;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
+import java.io.Serializable;
+import compute.CalendarMgrIntr;
+//import engine.CalendarObject;
+//import engine.EventObj;
 
-public class CalendarManager {
-	
+public class CalendarManager implements CalendarMgrIntr, Serializable, CalendarObject, EventObj{
+        private static final long serialVersionUID = 227L;
 	private LinkedList<CalendarObject> calendar;
 
 	public CalendarManager() {
 		super();
 	}
-	
-	public CalendarManager(LinkedList<CalendarObject> calendar) {
 
+	public CalendarManager(LinkedList<CalendarObject> calendar) {
 		this.calendar = calendar;
 	}
-	
+
 	public LinkedList<CalendarObject> getCalendar() {
 		return calendar;
 	}
@@ -25,11 +32,22 @@ public class CalendarManager {
 		this.calendar = calendar;
 	}
 	
-	public LinkedList<EventObj> retrieveOthersEvent(String user, Calendar startDate, Calendar endDate){
+	public CalenderObj createCalendarObject(String createNewClientName){
+		return new CalendarObj(createNewClientName, new LinkedList<EventObj>());
+	}
+	
+	public EventObj createEvent(Calendar scheduleStartDateInput, Calendar scheduleEndDateInput, 
+			String descriptionScheduleInput, String accessControlScheduleInput){
 		
+		return new EventObj(scheduleStartDateInput, scheduleEndDateInput, descriptionScheduleInput, accessControlScheduleInput);
+		
+	}
+
+	public LinkedList<EventObj> retrieveOthersEvent(String user, Calendar startDate, Calendar endDate){
+
 		//initialize a list for return
 		LinkedList<EventObj> resultEventSet = new LinkedList<EventObj>();
-		
+
 		boolean userExist = false;
 		//iterate from beginning, search the name same as the parameter user
 		if(calendar.isEmpty()){
@@ -48,15 +66,15 @@ public class CalendarManager {
 							if(retrieveEvent.getAccessControl().equalsIgnoreCase("Private")){
 								resultEventSet.add(retrieveEvent);
 							}
-							
+
 						}
-					}	
+					}
 				}
-				
+
 			}
 		}
-		
-		
+
+
 		if(userExist == false){
 			//check if parameter user does not exist
 			System.out.println(user + " is not in userlist: ");
@@ -68,15 +86,15 @@ public class CalendarManager {
 			}
 			return resultEventSet;
 		}
-		
-		
+
+
 	}
-	
+
 public LinkedList<EventObj> retrieveOwnEvent(String user, Calendar startDate, Calendar endDate){
-		
+
 		//initialize a list for return
 		LinkedList<EventObj> resultEventSet = new LinkedList<EventObj>();
-		
+
 		boolean userExist = false;
 		//iterate from beginning, search the name same as the parameter user
 		if(calendar.isEmpty()){
@@ -92,17 +110,17 @@ public LinkedList<EventObj> retrieveOwnEvent(String user, Calendar startDate, Ca
 								||(endDate.compareTo(retrieveEvent.getEndDate())<=0 && endDate.compareTo(retrieveEvent.getStartDate())>=0) //enddate is between the event
 								||(startDate.compareTo(retrieveEvent.getStartDate())<=0 && endDate.compareTo(retrieveEvent.getEndDate())>=0)//the event is in the start and end date
 								){
-							
+
 								resultEventSet.add(retrieveEvent);
-							
+
 						}
-					}	
+					}
 				}
-				
+
 			}
 		}
-		
-		
+
+
 		if(userExist == false){
 			//check if parameter user does not exist
 			System.out.println(user + " is not in userlist: ");
@@ -114,10 +132,10 @@ public LinkedList<EventObj> retrieveOwnEvent(String user, Calendar startDate, Ca
 			}
 			return resultEventSet;
 		}
-		
-		
+
+
 	}
-	
+
 
 	public void scheduleEvent(LinkedList<String> name, EventObj newEvent){
 
@@ -128,8 +146,8 @@ public LinkedList<EventObj> retrieveOwnEvent(String user, Calendar startDate, Ca
 		for(String nameInput : name){
 		//iterate from beginning, search the name same as the username
 		for (CalendarObject e : calendar){
-			
-				
+
+
 				if(nameInput.equalsIgnoreCase(e.getName())){
 					userExist = true;
 					allloop:
@@ -142,8 +160,8 @@ public LinkedList<EventObj> retrieveOwnEvent(String user, Calendar startDate, Ca
 							timeConflict = true;
 							break allloop;
 						}
-					}	
-				
+					}
+
 					if (timeConflict == true){
 						//there are conflicting, return error message
 						System.out.println("Time Conflict! " + nameInput +" already have an event at this time! Please reschedule!");
@@ -151,9 +169,9 @@ public LinkedList<EventObj> retrieveOwnEvent(String user, Calendar startDate, Ca
 						//no conflicting add the newEvent to the user
 						e.getEvent().add(newEvent);
 					}
-					
+
 				}
-				
+
 				}
 		if(userExist == false){
 			CalendarObject registerUser = new CalendarObject();
@@ -162,9 +180,9 @@ public LinkedList<EventObj> retrieveOwnEvent(String user, Calendar startDate, Ca
 			registerUser.setName(nameInput);
 			registerUser.setEvent(registerEvents);
 			this.calendar.add(registerUser);
-				
+
 			}
-			
+
 		}
 	}
 
@@ -175,7 +193,7 @@ public LinkedList<EventObj> retrieveOwnEvent(String user, Calendar startDate, Ca
 			itr.next();
 		}
 	}
-	
+
 	@Override
 	public String toString() {
 		if(calendar==null){
@@ -184,5 +202,30 @@ public LinkedList<EventObj> retrieveOwnEvent(String user, Calendar startDate, Ca
 		return "CalendarManager: [" + calendar + "]";
 	}
 
-	
+
+      public static void main(String[] args) {
+        if (System.getSecurityManager() == null) {
+            System.setSecurityManager(new SecurityManager());
+        }
+        try {
+            String name = args[0];//"Compute";
+
+            //Compute engine = new ComputeEngine();
+            //Pi engine = new PiImpl();
+            CalendarMgrIntr engine = new CalendarManager(calendar);
+
+
+            //Compute stub =
+            //Pi stub =
+            CalendarMgrIntr stub =
+                (CalendarMgrIntr) UnicastRemoteObject.exportObject(engine, 0);
+            Registry registry = LocateRegistry.getRegistry();
+            registry.rebind(name, stub);
+            System.out.println("ComputeEngine bound");
+        } catch (Exception e) {
+            System.err.println("ComputeEngine exception:");
+            e.printStackTrace();
+        }
+    }
+
 }
