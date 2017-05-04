@@ -5,7 +5,7 @@ import compute.EventInterface;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-public interface CalendarObjIntr extends Remote {
+public interface CalendarObjIntr<T> extends Remote {
 	
 
 
@@ -13,9 +13,9 @@ public interface CalendarObjIntr extends Remote {
 
 	public void setName(String name) throws RemoteException;
 	
-	public LinkedList<EventInterface> getEvent() throws RemoteException;
+	public LinkedList<T> getEvent() throws RemoteException;
 
-	public void setEvent(LinkedList<EventInterface> event) throws RemoteException;
+	public void setEvent(LinkedList<T> event) throws RemoteException;
 	
 	//public String toString() throws RemoteException;
 	

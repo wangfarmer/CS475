@@ -7,6 +7,8 @@ import java.util.Scanner;
 import compute.CalendarMgrIntr;
 import compute.CalendarObjIntr;
 import compute.EventInterface;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 
 public class CalendarDemo {
 	public static void main(String[] args) {

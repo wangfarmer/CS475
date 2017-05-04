@@ -12,7 +12,7 @@ import compute.CalendarMgrIntr;
 //import engine.CalendarObject;
 //import engine.EventObj;
 
-public class CalendarManager implements CalendarMgrIntr, Serializable, CalendarObject, EventObj{
+public class CalendarManager implements CalendarMgrIntr<CalendarObject, EventObj>, Serializable{
         private static final long serialVersionUID = 227L;
 	private LinkedList<CalendarObject> calendar;
 
@@ -32,8 +32,8 @@ public class CalendarManager implements CalendarMgrIntr, Serializable, CalendarO
 		this.calendar = calendar;
 	}
 	
-	public CalenderObj createCalendarObject(String createNewClientName){
-		return new CalendarObj(createNewClientName, new LinkedList<EventObj>());
+	public CalendarObject createCalendarObject(String createNewClientName){
+		return new CalendarObject(createNewClientName, new LinkedList<EventObj>());
 	}
 	
 	public EventObj createEvent(Calendar scheduleStartDateInput, Calendar scheduleEndDateInput, 

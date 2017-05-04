@@ -17,7 +17,7 @@ public class EventObj implements EventInterface, Serializable{
 	private static final long serialVersionUID = 227L;
 
 	public EventObj(){
-		super();
+		//super();
 	}
 	public EventObj(Calendar startDate, Calendar endDate, String description, String accessControl) {
 

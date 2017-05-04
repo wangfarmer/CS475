@@ -8,18 +8,18 @@ import java.rmi.RemoteException;
 import compute.CalendarObjIntr;
 import compute.EventInterface;
 
-public interface CalendarMgrIntr extends Remote {
+public interface CalendarMgrIntr<T, E> extends Remote {
 
-	public LinkedList<CalendarObjIntr> getCalendar() throws RemoteException;
+	public LinkedList<T> getCalendar() throws RemoteException;
 
-	public void setCalendar(LinkedList<CalendarObjIntr> calendar) throws RemoteException;
+	public void setCalendar(LinkedList<T> calendar) throws RemoteException;
 
-	public LinkedList<EventInterface> retrieveOthersEvent(String user, Calendar startDate, Calendar endDate) throws RemoteException;
+	public LinkedList<E> retrieveOthersEvent(String user, Calendar startDate, Calendar endDate) throws RemoteException;
 
 
-	public LinkedList<EventInterface> retrieveOwnEvent(String user, Calendar startDate, Calendar endDate) throws RemoteException;
+	public LinkedList<E> retrieveOwnEvent(String user, Calendar startDate, Calendar endDate) throws RemoteException;
 
-	public void scheduleEvent(LinkedList<String> name, EventInterface newEvent) throws RemoteException;
+	public void scheduleEvent(LinkedList<String> name, E newEvent) throws RemoteException;
 
 	public void calandarItr() throws RemoteException;
 
